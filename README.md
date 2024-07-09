@@ -1,6 +1,11 @@
-# Getting Started with Create React App
+# Countries SPA
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Countries Single-Page Web Application using React that interacts with the REST Countries API
+(https://restcountries.com/).
+
+- The application allow users to view a list of countries and their details
+- Additionally, users can search for countries by name, language, or currency, all within a single page.
+- Users can also mark countries as their favorites.
 
 ## Available Scripts
 
@@ -11,13 +16,9 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the test runner in the interactive watch mode.
 
 ### `npm run build`
 
@@ -27,20 +28,31 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `npm format`
 
-### `npm run eject`
+Runs prettier to format the code
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Requirements
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Build the frontend of the application using React to create a seamless single-page experience.
+- Utilize the REST Countries API (https://restcountries.com/) to fetch the list of countries and their details.
+- Display a list of countries on the page, showing their name, flag, and basic information like population,
+  language(s), and currency/currencies.
+- Implement a search functionality that allows users to search for countries by name, language, or currency
+  without triggering a page reload.
+- Use Ag-Grid to display the list.
+- Display the search results in a list format, showing relevant information for each country, all within the same
+  page.
+- Allow users to view the full details of a country when clicking on row, without navigating to a separate page.
+- Implement a favorites feature that allows users to mark countries as favorites and view their list of favorite
+  countries.
+- Use local storage to persist the user's favorite countries between page reloads.
+- Add appropriate error handling for cases like API failures or invalid requests.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Optional Requirements
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Implement pagination for the list of countries, showing a limited number of countries per page, but ensure it
+  remains a single-page application.
+- Include sorting options for the list of countries, e.g., sort by name, population, or currency.
+- Add a feature to filter countries based on various criteria, e.g., filter by language or currency.
+- Style Ag-Grid for visual appeal and usability
