@@ -2,26 +2,28 @@
 import { useEffect, useState } from "react";
 
 import { APIService } from "../utils/APIService";
+import { ICountry } from "../types/country";
 
-interface Country {
-  id: number;
-  name: string;
-  email: string;
+interface IUseGetCountries {
+  data: ICountry[],
+  loading: boolean
 }
 
-const useGetCountries = (): Country[] => {
-  const [allCountries, setAllCountries] = useState([]);
+const useGetCountries = (): IUseGetCountries => {
+  const [loading, setLoading] = useState(true);
+  const [allCountries, setAllCountries] = useState<ICountry[]>([]);
 
   const getCountriesData = async () => {
     const countries = await APIService.getInstance().get("all");
     setAllCountries(countries?.data);
+    setLoading(false);
   }
 
   useEffect(() => {
     getCountriesData();
   }, []);
 
-  return allCountries;
+  return { data: allCountries, loading };
 };
 
 export default useGetCountries;

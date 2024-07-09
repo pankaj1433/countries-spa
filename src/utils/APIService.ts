@@ -64,13 +64,12 @@ export class APIService {
     return res;
   };
 
-
-  // Other REST methods to be defined below 
   delete = async (url: string) => {
     const res = await this.axiosClient.delete(url)
       .then((response: AxiosResponse) => response);
     return res;
   };
+
   post = async (url: string, payload: any, config?: any) => {
     let res;
     if (config) {
@@ -82,11 +81,13 @@ export class APIService {
     }
     return res;
   };
+
   put = async (url: string, payload: any) => {
     const res = await this.axiosClient.put(url, payload)
       .then((response: AxiosResponse) => response);
     return res;
   };
+
   patch = async (url: string, payload: any) => {
     const res = await this.axiosClient.patch(url, payload)
       .then((response: AxiosResponse) => response);
