@@ -14,12 +14,12 @@ export interface ICurrency {
   }
 }
 
-interface IFlags {
+export interface IFlags {
   png: string;
   svg: string;
 }
 
-interface IMaps {
+export interface IMaps {
   googleMaps: string;
   openStreetMaps: string;
 }
