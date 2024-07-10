@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import Drawer from 'react-modern-drawer';
 
 import SingleCountryContext from "../../context/SingleCountryContext"
@@ -20,6 +20,11 @@ const SingleCountryDrawer = () => {
     toggleDrawer();
   }, [toggleDrawer, setCurrentCountry]);
 
+
+  const currentFavorites = localStorage.getItem("favorites");
+
+  const favouriteClass = currentFavorites?.includes(currentCountry?.name?.common ?? "") ? "fav-active" : "";
+
   return (
     <>
       <Drawer
@@ -40,7 +45,7 @@ const SingleCountryDrawer = () => {
                 </div>
                 <div className="title-and-fav">
                   <h2>{currentCountry.name.common}</h2>
-                  <button className="fav-btn">&#9829;</button>
+                  <button className={`${favouriteClass} fav-btn`}>&#9829;</button>
                 </div>
                 <div className="line-break" />
               </div>

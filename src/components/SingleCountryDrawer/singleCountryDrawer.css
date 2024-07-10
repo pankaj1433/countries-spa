@@ -41,8 +41,8 @@
   font-size: 24px;
 }
 
-.fav-btn-checked {
-  background: #d73535;
+.fav-btn.fav-active {
+  color: red;
 }
 
 .single-country-wrapper .line-break {
