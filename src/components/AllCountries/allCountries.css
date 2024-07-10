@@ -1,24 +1,29 @@
 .multi-value-field {
-  height: 100%;
-  display: flex;
   align-items: center;
+  display: flex;
+  height: 100%;
+}
+
+.single-values-wrapper {
+  margin: 4px 0;
 }
 
 .values-wrapper {
-  display: flex;
-  row-gap: 4px;
-  column-gap: 4px;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
+  column-gap: 4px;
+  display: flex;
+  flex-wrap: wrap;
   font-size: 12px;
+  justify-content: flex-start;
+  row-gap: 4px;
+  margin: 4px 0;
 }
 
 .values-wrapper span {
+  border: 1px solid;
+  border-radius: 5px;
   line-height: 20px;
-    border: 1px solid;
-    border-radius: 5px;
-    padding: 2px;
+  padding: 2px;
 }
 
 .flag-header {

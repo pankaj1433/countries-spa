@@ -1,13 +1,13 @@
-interface ICountryName {
+export interface ICountryName {
   common: string;
   nativeName: string;
 }
 
-interface ICountryLanguages {
+export interface ICountryLanguages {
   [key: string]: string
 }
 
-interface ICurrency {
+export interface ICurrency {
   [key: string]: {
     name: string;
     symbol: string;

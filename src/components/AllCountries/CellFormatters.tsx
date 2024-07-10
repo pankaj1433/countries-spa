@@ -1,35 +1,30 @@
-import { useMemo } from 'react';
-import { AgGridReact, CustomCellRendererProps } from '@ag-grid-community/react';
+import { CustomCellRendererProps } from '@ag-grid-community/react';
 
-export const LanguagesCell = (props: CustomCellRendererProps) => {
-  if (!props.value) {
+export const SingleValueCell = (props: CustomCellRendererProps) => {
+  if (!props.valueFormatted) {
     return null
   }
 
   return (
-    <div className='multi-value-field'>
-      <div className="values-wrapper">
-        {
-          Object.keys(props.value).map((language) => (
-            <span key={language}>{props.value[language]}</span>
-          ))
-        }
+    <div className="cell-wrapper">
+      <div className="single-values-wrapper">
+        <span>{props.valueFormatted}</span>
       </div>
     </div>
   )
-};
+}
 
-export const CurrenciesCell = (props: CustomCellRendererProps) => {
-  if (!props.value) {
+export const MultiValueCell = (props: CustomCellRendererProps) => {
+  if (!props.valueFormatted) {
     return null
   }
 
   return (
-    <div className='multi-value-field'>
+    <div className=' cell-wrapper multi-value-field'>
       <div className="values-wrapper">
         {
-          Object.keys(props.value).map((currency) => (
-            <span key={currency}>{props.value[currency].name}</span>
+          props.valueFormatted.split(',').map((val: string) => (
+            <span key={val}>{val}</span>
           ))
         }
       </div>
