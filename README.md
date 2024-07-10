@@ -1,42 +1,51 @@
 # Countries SPA
 
-Countries Single-Page Web Application using React that interacts with the REST Countries API
-(https://restcountries.com/).
+This project is a Single-Page Application (SPA) built with React that interacts with the REST Countries API (https://restcountries.com/).
 
-- The application allow users to view a list of countries and their details
-- Additionally, users can search for countries by name, language, or currency, all within a single page.
-- Users can also mark countries as their favorites.
+## Features
 
-## Deployed At
+- View a comprehensive list of countries along with their details.
+- Search for countries by name, language, or currency within a single page.
+- Mark and manage favorite countries.
 
-https://pankaj1433.github.io/countries-spa/
+## Live Demo
 
-## Install Dependencies
+Check out the deployed application: [Countries SPA](https://pankaj1433.github.io/countries-spa/)
 
-### `npm install`
+## Installation
+
+To install the required dependencies, run:
+
+```bash
+npm install
+```
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+```bash
+npm start
+```
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### `npm test`
+```bash
+npm test
+```
 
 Launches the test runner in the interactive watch mode.
 
-### `npm run build`
+```bash
+npm run build
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `dist` folder.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-### `npm format`
+```bash
+npm format
+```
 
 Runs prettier to format the code
 
