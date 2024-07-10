@@ -2,20 +2,28 @@
 import { useEffect, useState } from "react";
 
 import { APIService } from "../utils/APIService";
-import { ICountry } from "../types/country";
+import { ICountry, ICountryTable } from "../types/country";
 
 interface IUseGetCountries {
-  data: ICountry[],
-  loading: boolean
+  countries: ICountryTable[];
+  loading: boolean;
 }
 
 const useGetCountries = (): IUseGetCountries => {
+  const [countries, setCountries] = useState<ICountryTable[]>([]);
   const [loading, setLoading] = useState(true);
-  const [allCountries, setAllCountries] = useState<ICountry[]>([]);
 
   const getCountriesData = async () => {
-    const countries = await APIService.getInstance().get("all");
-    setAllCountries(countries?.data);
+    const countries: { data: ICountry[] } = await APIService.getInstance().get("all");
+    const countriesData: ICountry[] = countries.data
+    const savedFavorites = JSON.parse(localStorage.getItem('favourites') || '[]') as string[];
+
+    const updatedCountries: ICountryTable[] = countriesData.map((country: ICountry) => ({
+      ...country,
+      favourite: savedFavorites.includes(country.name.common),
+    }));
+
+    setCountries(updatedCountries);
     setLoading(false);
   }
 
@@ -23,7 +31,7 @@ const useGetCountries = (): IUseGetCountries => {
     getCountriesData();
   }, []);
 
-  return { data: allCountries, loading };
+  return { countries, loading };
 };
 
 export default useGetCountries;

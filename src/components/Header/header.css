@@ -1,0 +1,25 @@
+.header {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+.header .tooltip-custom {
+  z-index: 9;
+  font-size: 14px;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.header button {
+  font-size: 24px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: red;
+}

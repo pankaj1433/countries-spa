@@ -1,7 +1,7 @@
-import { useCallback, useContext, useMemo } from "react";
+import { useCallback, useContext } from "react";
 import Drawer from 'react-modern-drawer';
 
-import SingleCountryContext from "../../context/SingleCountryContext"
+import AppContext from "../../context/AppContext"
 import MultiFieldChips from "./MultiFieldChips";
 
 import 'react-modern-drawer/dist/index.css';
@@ -13,7 +13,7 @@ const SingleCountryDrawer = () => {
     currentCountry,
     setCurrentCountry,
     toggleDrawer
-  } = useContext(SingleCountryContext);
+  } = useContext(AppContext);
 
   const handleClose = useCallback(() => {
     setCurrentCountry();
@@ -21,7 +21,7 @@ const SingleCountryDrawer = () => {
   }, [toggleDrawer, setCurrentCountry]);
 
 
-  const currentFavorites = localStorage.getItem("favorites");
+  const currentFavorites = localStorage.getItem("favourites");
 
   const favouriteClass = currentFavorites?.includes(currentCountry?.name?.common ?? "") ? "fav-active" : "";
 

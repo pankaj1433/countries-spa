@@ -1,24 +1,36 @@
 import { useState } from "react";
+
+import Header from "./Header";
 import AllCountries from "./AllCountries";
 import SingleCountryDrawer from "./SingleCountryDrawer";
-import SingleCountryContext from "../context/SingleCountryContext";
-import { ICountry } from '../types/country'
+import AppContext from "../context/AppContext";
+
+import { ICountryTable } from '../types/country';
 
 const App = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentCountry, setCurrentCountry] = useState<ICountry | undefined>();
+  const [isOnlyFavouritesVisible, setIsOnlyFavouritesVisible] = useState(false);
+
+  const [currentCountry, setCurrentCountry] = useState<ICountryTable | undefined>();
 
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState)
   }
 
   return (
-    <SingleCountryContext.Provider value={{
-      isOpen, setIsOpen, toggleDrawer, setCurrentCountry, currentCountry
+    <AppContext.Provider value={{
+      isOpen,
+      setIsOpen,
+      toggleDrawer,
+      setCurrentCountry,
+      currentCountry,
+      isOnlyFavouritesVisible,
+      setIsOnlyFavouritesVisible
     }}>
+      <Header />
       <AllCountries />
       <SingleCountryDrawer />
-    </SingleCountryContext.Provider>
+    </AppContext.Provider>
   );
 };
 

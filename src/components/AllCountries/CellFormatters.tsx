@@ -38,3 +38,13 @@ export const MultiValueCell = (props: CustomMultiValueCellParams) => {
     </div>
   )
 };
+
+export const FavouriteCell = (props: CustomCellRendererProps) => {
+  return (
+    <div className="cell-wrapper favourite-field">
+      <div className={`single-values-wrapper ${props.value ? 'checked' : 'unchecked'}`}>
+        <span>♥</span>
+      </div>
+    </div>
+  );
+}

@@ -7,6 +7,10 @@ Countries Single-Page Web Application using React that interacts with the REST C
 - Additionally, users can search for countries by name, language, or currency, all within a single page.
 - Users can also mark countries as their favorites.
 
+## Install Dependencies
+
+### `npm install`
+
 ## Available Scripts
 
 In the project directory, you can run:

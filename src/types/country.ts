@@ -40,3 +40,7 @@ export interface ICountry {
   population: number;
   maps: IMaps
 }
+
+export interface ICountryTable extends ICountry {
+  favourite: boolean
+}

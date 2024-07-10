@@ -1,15 +1,21 @@
-import { useMemo, useContext, useCallback } from 'react';
+import { useMemo, useContext, useCallback, useRef, useEffect } from 'react';
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 import { AgGridReact } from '@ag-grid-community/react';
-import { ColDef, ModuleRegistry, RowClickedEvent, RowSelectedEvent, FirstDataRenderedEvent, IRowNode } from '@ag-grid-community/core';
+import {
+  ColDef,
+  ModuleRegistry,
+  CellClickedEvent,
+  GetRowIdParams
+} from '@ag-grid-community/core';
 
 import useGetCountries from "../../hooks/useGetCountries";
-import { ICountry } from "../../types/country";
+import { ICountryTable } from "../../types/country";
 import {
   MultiValueCell,
-  SingleValueCell
+  SingleValueCell,
+  FavouriteCell
 } from "./CellFormatters";
-import SingleCountryContext from '../../context/SingleCountryContext'
+import AppContext from '../../context/AppContext'
 
 import '@ag-grid-community/styles/ag-grid.css';
 import '@ag-grid-community/styles/ag-theme-quartz.css';
@@ -18,10 +24,15 @@ import './allCountries.css';
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
 const AllCountries = () => {
-  const { data, loading } = useGetCountries();
-  const { setCurrentCountry, setIsOpen } = useContext(SingleCountryContext);
+  const gridRef = useRef<AgGridReact<ICountryTable>>(null);
+  const { countries, loading } = useGetCountries();
+  const {
+    setCurrentCountry,
+    setIsOpen,
+    isOnlyFavouritesVisible,
+  } = useContext(AppContext);
 
-  const columnDefs = useMemo<ColDef<ICountry>[]>(() => ([
+  const columnDefs = useMemo<ColDef<ICountryTable>[]>(() => ([
     {
       field: 'flag',
       pinned: 'left',
@@ -30,6 +41,16 @@ const AllCountries = () => {
       headerClass: 'no-header',
       valueFormatter: "data.flag",
       cellRenderer: SingleValueCell,
+    },
+    {
+      field: 'favourite',
+      cellRenderer: FavouriteCell,
+      pinned: 'left',
+      minWidth: 50,
+      width: 50,
+      headerClass: 'no-header',
+      enableCellChangeFlash: true,
+      filter: true,
     },
     {
       headerName: 'Country Name',
@@ -45,9 +66,6 @@ const AllCountries = () => {
       },
       wrapText: true,
       cellRenderer: SingleValueCell,
-      headerCheckboxSelection: false,
-      checkboxSelection: true,
-      showDisabledCheckboxes: true,
     },
     {
       field: 'population',
@@ -89,57 +107,56 @@ const AllCountries = () => {
     autoHeight: true
   }), []);
 
-  const handleRowClick = useCallback((event: RowClickedEvent<ICountry>) => {
+  const saveFavouritesToLocalStorage = useCallback((favourites: string[]) => {
+    localStorage.setItem('favourites', JSON.stringify(favourites));
+  }, []);
+
+  const handleCellClicked = useCallback((event: CellClickedEvent<ICountryTable>) => {
+    if (event.column.getColId() === "favourite") {
+      const country = event.data?.name.common ?? "";
+      const rowNode = event.api.getRowNode(country)
+      const favouritesCountries = new Set(JSON.parse(localStorage.getItem('favourites') || '[]'));
+
+      if (country && favouritesCountries.has(country)) {
+        favouritesCountries.delete(country);
+        rowNode?.setDataValue("favourite", false);
+      } else {
+        favouritesCountries.add(country);
+        rowNode?.setDataValue("favourite", true);
+      }
+      saveFavouritesToLocalStorage(Array.from(favouritesCountries) as string[]);
+      return;
+    }
+    //This opens drawer
     setCurrentCountry(event.data);
     setIsOpen(true);
-    console.log(event)
-  }, [setCurrentCountry, setIsOpen]);
+  }, [setCurrentCountry, setIsOpen, saveFavouritesToLocalStorage])
 
+  const getRowId = useCallback((params: GetRowIdParams<ICountryTable>) => {
+    return params.data.name.common;
+  }, []);
 
-  const toggleFavorites = useCallback((event: RowSelectedEvent<ICountry>) => {
-    if (event.source !== "checkboxSelected")
-      return;
-    const country = event.data?.name.common;
-    const currentFavorites = localStorage.getItem("favorites");
-    const favoritesCountries = currentFavorites
-      ? new Set(JSON.parse(currentFavorites)) : new Set();
-
-    if (country && favoritesCountries.has(country)) {
-      favoritesCountries.delete(country);
+  useEffect(() => {
+    if (!isOnlyFavouritesVisible) {
+      gridRef.current?.api?.setFilterModel(null);
     } else {
-      favoritesCountries.add(country);
+      gridRef.current?.api?.setFilterModel({
+        favourite: { filterType: 'text', type: "true" }
+      });
     }
-    localStorage.setItem("favorites", JSON.stringify(Array.from(favoritesCountries)));
-  }, []);
-
-  const onFirstDataRendered = useCallback((params: FirstDataRenderedEvent<ICountry>) => {
-    const nodesToSelect: IRowNode<ICountry>[] = [];
-    const currentFavorites = localStorage.getItem("favorites");
-    const favoritesCountries = currentFavorites ? JSON.parse(currentFavorites) : [];
-
-    params.api.forEachNode((node: IRowNode<ICountry>) => {
-      if (favoritesCountries.includes(node.data?.name.common)) {
-        nodesToSelect.push(node)
-      }
-    })
-
-    params.api.setNodesSelected({ nodes: nodesToSelect, newValue: true });
-  }, []);
+  }, [gridRef, isOnlyFavouritesVisible]);
 
   return (
-    <div className="ag-theme-quartz" style={{ height: '100vh', width: '100%' }}>
-      <AgGridReact<ICountry>
-        rowData={data}
+    <div className="ag-theme-quartz table-wrapper" >
+      <AgGridReact<ICountryTable>
+        ref={gridRef}
+        rowData={countries}
         loading={loading}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
-        rowSelection={"multiple"}
-        onRowClicked={handleRowClick}
-        onRowSelected={toggleFavorites}
-        onFirstDataRendered={onFirstDataRendered}
-        suppressRowClickSelection={true}
-        suppressRowDeselection={true}
+        onCellClicked={handleCellClicked}
         suppressCellFocus={true}
+        getRowId={getRowId}
       />
     </div>
   );

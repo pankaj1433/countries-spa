@@ -1,3 +1,8 @@
+.table-wrapper {
+  width: 100%;
+  height: calc(100vh - 48px);
+}
+
 .multi-value-field {
   align-items: center;
   display: flex;
@@ -30,7 +35,18 @@
   display: none;
 }
 
-.ag-checkbox-input-wrapper::after {
+
+.cell-wrapper .favourite-field span {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.cell-wrapper .checked span {
+  color: red;
+}
+
+
+/* .ag-checkbox-input-wrapper::after {
   content: var(--ag-icon-font-code-checkbox-unchecked, "♥");
 }
 
@@ -49,7 +65,7 @@
 
 .ag-row-hover {
   --ag-row-hover-color: #fff;
-}
+} */
 
 .ag-row {
   cursor: pointer;
