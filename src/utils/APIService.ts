@@ -9,9 +9,7 @@
 import axios, { Axios, AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 
 const API_VERSION = "v3.1";
-const BASE_URL = `https://restcountriess.com/${API_VERSION}`;
-
-// const BASE_URL = `https://restcountries.com/${API_VERSION}`;
+const BASE_URL = `https://restcountries.com/${API_VERSION}`;
 
 const API_CONFIG: AxiosRequestConfig = {
   baseURL: BASE_URL,
