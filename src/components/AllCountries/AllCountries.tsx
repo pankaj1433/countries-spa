@@ -1,7 +1,7 @@
 import { useMemo, useContext, useCallback } from 'react';
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 import { AgGridReact } from '@ag-grid-community/react';
-import { ColDef, ModuleRegistry, RowClickedEvent } from '@ag-grid-community/core';
+import { ColDef, ModuleRegistry, RowClickedEvent, RowSelectedEvent, FirstDataRenderedEvent, IRowNode } from '@ag-grid-community/core';
 
 import useGetCountries from "../../hooks/useGetCountries";
 import { ICountry } from "../../types/country";
@@ -27,13 +27,14 @@ const AllCountries = () => {
       pinned: 'left',
       minWidth: 50,
       width: 50,
-      headerClass: 'flag-header',
+      headerClass: 'no-header',
       valueFormatter: "data.flag",
       cellRenderer: SingleValueCell,
     },
     {
       headerName: 'Country Name',
       field: 'name',
+      pinned: 'left',
       valueGetter: "data.name.common",
       valueFormatter: "data.name.common",
       sortable: true,
@@ -44,6 +45,9 @@ const AllCountries = () => {
       },
       wrapText: true,
       cellRenderer: SingleValueCell,
+      headerCheckboxSelection: false,
+      checkboxSelection: true,
+      showDisabledCheckboxes: true,
     },
     {
       field: 'population',
@@ -88,7 +92,39 @@ const AllCountries = () => {
   const handleRowClick = useCallback((event: RowClickedEvent<ICountry>) => {
     setCurrentCountry(event.data);
     setIsOpen(true);
-  }, [setCurrentCountry, setIsOpen])
+    console.log(event)
+  }, [setCurrentCountry, setIsOpen]);
+
+
+  const toggleFavorites = useCallback((event: RowSelectedEvent<ICountry>) => {
+    if (event.source !== "checkboxSelected")
+      return;
+    const country = event.data?.name.common;
+    const currentFavorites = localStorage.getItem("favorites");
+    const favoritesCountries = currentFavorites
+      ? new Set(JSON.parse(currentFavorites)) : new Set();
+
+    if (country && favoritesCountries.has(country)) {
+      favoritesCountries.delete(country);
+    } else {
+      favoritesCountries.add(country);
+    }
+    localStorage.setItem("favorites", JSON.stringify(Array.from(favoritesCountries)));
+  }, []);
+
+  const onFirstDataRendered = useCallback((params: FirstDataRenderedEvent<ICountry>) => {
+    const nodesToSelect: IRowNode<ICountry>[] = [];
+    const currentFavorites = localStorage.getItem("favorites");
+    const favoritesCountries = currentFavorites ? JSON.parse(currentFavorites) : [];
+
+    params.api.forEachNode((node: IRowNode<ICountry>) => {
+      if (favoritesCountries.includes(node.data?.name.common)) {
+        nodesToSelect.push(node)
+      }
+    })
+
+    params.api.setNodesSelected({ nodes: nodesToSelect, newValue: true });
+  }, []);
 
   return (
     <div className="ag-theme-quartz" style={{ height: '100vh', width: '100%' }}>
@@ -97,7 +133,13 @@ const AllCountries = () => {
         loading={loading}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
+        rowSelection={"multiple"}
         onRowClicked={handleRowClick}
+        onRowSelected={toggleFavorites}
+        onFirstDataRendered={onFirstDataRendered}
+        suppressRowClickSelection={true}
+        suppressRowDeselection={true}
+        suppressCellFocus={true}
       />
     </div>
   );

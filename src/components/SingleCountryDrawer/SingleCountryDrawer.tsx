@@ -40,7 +40,7 @@ const SingleCountryDrawer = () => {
                 </div>
                 <div className="title-and-fav">
                   <h2>{currentCountry.name.common}</h2>
-                  <button className="fav-btn">&#x2665;</button>
+                  <button className="fav-btn">&#9829;</button>
                 </div>
                 <div className="line-break" />
               </div>
