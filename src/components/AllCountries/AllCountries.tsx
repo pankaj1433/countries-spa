@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
+import { useMemo, useContext, useCallback } from 'react';
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 import { AgGridReact } from '@ag-grid-community/react';
-import { ColDef, ModuleRegistry } from '@ag-grid-community/core';
+import { ColDef, ModuleRegistry, RowClickedEvent } from '@ag-grid-community/core';
 
 import useGetCountries from "../../hooks/useGetCountries";
 import { ICountry } from "../../types/country";
@@ -9,6 +9,8 @@ import {
   MultiValueCell,
   SingleValueCell
 } from "./CellFormatters";
+import SingleCountryContext from '../../context/SingleCountryContext'
+
 import '@ag-grid-community/styles/ag-grid.css';
 import '@ag-grid-community/styles/ag-theme-quartz.css';
 import './allCountries.css';
@@ -17,6 +19,8 @@ ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
 const AllCountries = () => {
   const { data, loading } = useGetCountries();
+  const { setCurrentCountry, setIsOpen } = useContext(SingleCountryContext);
+
   const columnDefs = useMemo<ColDef<ICountry>[]>(() => ([
     {
       field: 'flag',
@@ -55,11 +59,23 @@ const AllCountries = () => {
       minWidth: 300,
     },
     {
+      field: 'capital',
+      valueFormatter: "data.capital&&data.capital.join(',')",
+      valueGetter: "data.capital&&data.capital.join(',')",
+      sortable: true,
+      cellRenderer: MultiValueCell,
+      cellRendererParams: {
+        hideBorder: true
+      },
+    },
+    {
       field: 'languages',
       valueFormatter: "data.languages&&Object.values(data.languages).join(',')",
       cellRenderer: MultiValueCell,
       minWidth: 300,
+      flex: 1
     },
+
   ]), []);
 
   const defaultColDef = useMemo<ColDef>(() => ({
@@ -69,6 +85,11 @@ const AllCountries = () => {
     autoHeight: true
   }), []);
 
+  const handleRowClick = useCallback((event: RowClickedEvent<ICountry>) => {
+    setCurrentCountry(event.data);
+    setIsOpen(true);
+  }, [setCurrentCountry, setIsOpen])
+
   return (
     <div className="ag-theme-quartz" style={{ height: '100vh', width: '100%' }}>
       <AgGridReact<ICountry>
@@ -76,6 +97,7 @@ const AllCountries = () => {
         loading={loading}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
+        onRowClicked={handleRowClick}
       />
     </div>
   );

@@ -1,4 +1,9 @@
+import { useMemo } from 'react';
 import { CustomCellRendererProps } from '@ag-grid-community/react';
+
+interface CustomMultiValueCellParams extends CustomCellRendererProps {
+  hideBorder: boolean;
+}
 
 export const SingleValueCell = (props: CustomCellRendererProps) => {
   if (!props.valueFormatted) {
@@ -14,14 +19,16 @@ export const SingleValueCell = (props: CustomCellRendererProps) => {
   )
 }
 
-export const MultiValueCell = (props: CustomCellRendererProps) => {
+export const MultiValueCell = (props: CustomMultiValueCellParams) => {
+  const borderClass = useMemo(() => props?.hideBorder ? 'no-border' : 'bordered', [props?.hideBorder]);
+
   if (!props.valueFormatted) {
     return null
   }
 
   return (
-    <div className=' cell-wrapper multi-value-field'>
-      <div className="values-wrapper">
+    <div className="multi-value-field">
+      <div className={`values-wrapper ${borderClass}`}>
         {
           props.valueFormatted.split(',').map((val: string) => (
             <span key={val}>{val}</span>

@@ -19,7 +19,7 @@
   margin: 4px 0;
 }
 
-.values-wrapper span {
+.values-wrapper.bordered span {
   border: 1px solid;
   border-radius: 5px;
   line-height: 20px;
