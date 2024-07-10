@@ -35,7 +35,6 @@
   display: none;
 }
 
-
 .cell-wrapper .favourite-field span {
   font-size: 25px;
   cursor: pointer;
@@ -44,28 +43,6 @@
 .cell-wrapper .checked span {
   color: red;
 }
-
-
-/* .ag-checkbox-input-wrapper::after {
-  content: var(--ag-icon-font-code-checkbox-unchecked, "♥");
-}
-
-.ag-checkbox-input-wrapper.ag-checked::after {
-  content: var(--ag-icon-font-code-checkbox-checked, "♥");
-  color: red;
-}
-
-.ag-checkbox-input-wrapper input:focus {
-  outline: none !important;
-}
-
-.ag-theme-quartz {
-  --ag-selected-row-background-color: #fff;
-}
-
-.ag-row-hover {
-  --ag-row-hover-color: #fff;
-} */
 
 .ag-row {
   cursor: pointer;

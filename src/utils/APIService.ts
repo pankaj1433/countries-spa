@@ -9,7 +9,9 @@
 import axios, { Axios, AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 
 const API_VERSION = "v3.1";
-const BASE_URL = `https://restcountries.com/${API_VERSION}`;
+const BASE_URL = `https://restcountriess.com/${API_VERSION}`;
+
+// const BASE_URL = `https://restcountries.com/${API_VERSION}`;
 
 const API_CONFIG: AxiosRequestConfig = {
   baseURL: BASE_URL,
@@ -41,12 +43,17 @@ export class APIService {
     const { response } = error;
     const { data, status } = response || DEFAULT_VALUE_FOR_ERROR_RESPONSE;
     const message = data;
-    return { data: null, status, statusText: message, };
+    return {
+      data: [],
+      status,
+      statusText: message,
+      type: "error"
+    };
   }
 
   successHandler = (response: AxiosResponse) => {
     const { status, statusText, headers, config } = response;
-    return { data: response.data, status, statusText, headers, config }
+    return { data: response.data, status, statusText, headers, config, type: "success" }
   };
 
   configureInterceptors = () => {

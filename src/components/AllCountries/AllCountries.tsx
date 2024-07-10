@@ -94,6 +94,8 @@ const AllCountries = () => {
       field: 'languages',
       valueFormatter: "data.languages&&Object.values(data.languages).join(',')",
       cellRenderer: MultiValueCell,
+      filter: true,
+      floatingFilter: true,
       minWidth: 300,
       flex: 1
     },
