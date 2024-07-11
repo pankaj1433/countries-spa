@@ -1,6 +1,6 @@
 # Countries SPA
 
-This project is a Single-Page Application (SPA) built with React that interacts with the REST Countries API (https://restcountries.com/).
+This project is a Single-Page Application (SPA) built with React & Vite that interacts with the REST Countries API (https://restcountries.com/).
 
 ## Features
 
