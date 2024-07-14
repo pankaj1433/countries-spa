@@ -23,3 +23,10 @@
   cursor: pointer;
   color: red;
 }
+
+.search-box {
+  font-size: 14px;
+  border-radius: 15px;
+  padding: 5px 10px;
+  width: 400px;
+}

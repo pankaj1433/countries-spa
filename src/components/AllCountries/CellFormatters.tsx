@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { CustomCellRendererProps } from '@ag-grid-community/react';
+import { useMemo } from "react";
+import { CustomCellRendererProps } from "@ag-grid-community/react";
 
 interface CustomMultiValueCellParams extends CustomCellRendererProps {
   hideBorder: boolean;
@@ -7,7 +7,7 @@ interface CustomMultiValueCellParams extends CustomCellRendererProps {
 
 export const SingleValueCell = (props: CustomCellRendererProps) => {
   if (!props.valueFormatted) {
-    return null
+    return null;
   }
 
   return (
@@ -16,35 +16,38 @@ export const SingleValueCell = (props: CustomCellRendererProps) => {
         <span>{props.valueFormatted}</span>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export const MultiValueCell = (props: CustomMultiValueCellParams) => {
-  const borderClass = useMemo(() => props?.hideBorder ? 'no-border' : 'bordered', [props?.hideBorder]);
+  const borderClass = useMemo(
+    () => (props?.hideBorder ? "no-border" : "bordered"),
+    [props?.hideBorder],
+  );
 
   if (!props.valueFormatted) {
-    return null
+    return null;
   }
 
   return (
     <div className="multi-value-field">
       <div className={`values-wrapper ${borderClass}`}>
-        {
-          props.valueFormatted.split(',').map((val: string) => (
-            <span key={val}>{val}</span>
-          ))
-        }
+        {props.valueFormatted.split(",").map((val: string) => (
+          <span key={val}>{val}</span>
+        ))}
       </div>
     </div>
-  )
+  );
 };
 
 export const FavouriteCell = (props: CustomCellRendererProps) => {
   return (
     <div className="cell-wrapper favourite-field">
-      <div className={`single-values-wrapper ${props.value ? 'checked' : 'unchecked'}`}>
+      <div
+        className={`single-values-wrapper ${props.value ? "checked" : "unchecked"}`}
+      >
         <span>♥</span>
       </div>
     </div>
   );
-}
+};

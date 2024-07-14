@@ -6,7 +6,12 @@
  * Reasons to change such warppers could be: security vulnerability, new enhanced solutions etc.
  */
 
-import axios, { Axios, AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
+import axios, {
+  Axios,
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosError,
+} from "axios";
 
 const API_VERSION = "v3.1";
 const BASE_URL = `https://restcountries.com/${API_VERSION}`;
@@ -45,32 +50,40 @@ export class APIService {
       data: [],
       status,
       statusText: message,
-      type: "error"
+      type: "error",
     };
-  }
+  };
 
   successHandler = (response: AxiosResponse) => {
     const { status, statusText, headers, config } = response;
-    return { data: response.data, status, statusText, headers, config, type: "success" }
+    return {
+      data: response.data,
+      status,
+      statusText,
+      headers,
+      config,
+      type: "success",
+    };
   };
 
   configureInterceptors = () => {
     this.axiosClient.interceptors.response.use(
       (response: AxiosResponse) => this.successHandler(response),
-      (error: AxiosError) => this.errorHandler(error)
+      (error: AxiosError) => this.errorHandler(error),
     );
-    this.axiosClient.interceptors.request.use(
-      (request) => request);
+    this.axiosClient.interceptors.request.use((request) => request);
   };
 
   get = async (url: string) => {
-    const res = await this.axiosClient.get(url)
+    const res = await this.axiosClient
+      .get(url)
       .then((response: AxiosResponse) => response);
     return res;
   };
 
   delete = async (url: string) => {
-    const res = await this.axiosClient.delete(url)
+    const res = await this.axiosClient
+      .delete(url)
       .then((response: AxiosResponse) => response);
     return res;
   };
@@ -78,24 +91,28 @@ export class APIService {
   post = async (url: string, payload: any, config?: any) => {
     let res;
     if (config) {
-      res = await this.axiosClient.post(url, payload, config)
+      res = await this.axiosClient
+        .post(url, payload, config)
         .then((response: AxiosResponse) => response);
     } else {
-      res = await this.axiosClient.post(url, payload)
+      res = await this.axiosClient
+        .post(url, payload)
         .then((response: AxiosResponse) => response);
     }
     return res;
   };
 
   put = async (url: string, payload: any) => {
-    const res = await this.axiosClient.put(url, payload)
+    const res = await this.axiosClient
+      .put(url, payload)
       .then((response: AxiosResponse) => response);
     return res;
   };
 
   patch = async (url: string, payload: any) => {
-    const res = await this.axiosClient.patch(url, payload)
+    const res = await this.axiosClient
+      .patch(url, payload)
       .then((response: AxiosResponse) => response);
     return res;
   };
-};
+}

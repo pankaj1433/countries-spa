@@ -4,14 +4,14 @@ export interface ICountryName {
 }
 
 export interface ICountryLanguages {
-  [key: string]: string
+  [key: string]: string;
 }
 
 export interface ICurrency {
   [key: string]: {
     name: string;
     symbol: string;
-  }
+  };
 }
 
 export interface IFlags {
@@ -38,9 +38,9 @@ export interface ICountry {
   borders: string[];
   timezones: string[];
   population: number;
-  maps: IMaps
+  maps: IMaps;
 }
 
 export interface ICountryTable extends ICountry {
-  favourite: boolean
+  favourite: boolean;
 }
