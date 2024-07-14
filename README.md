@@ -32,7 +32,7 @@ Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ```bash
-npm test
+npm run test
 ```
 
 Launches the test runner in the interactive watch mode.
@@ -44,10 +44,23 @@ npm run build
 Builds the app for production to the `dist` folder.
 
 ```bash
-npm format
+npm run preview
+```
+
+Runs a production built preview server
+
+
+```bash
+npm run format
 ```
 
 Runs prettier to format the code
+
+```bash
+npm run deploy
+```
+
+Runs gh script to deploy on github pages
 
 ## Requirements
 

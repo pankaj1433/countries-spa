@@ -159,6 +159,8 @@ const AllCountries = () => {
         onCellClicked={handleCellClicked}
         suppressCellFocus={true}
         getRowId={getRowId}
+        paginationAutoPageSize={true}
+        pagination={true}
       />
     </div>
   );
